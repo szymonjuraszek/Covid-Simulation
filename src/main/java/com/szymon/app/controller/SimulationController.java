@@ -114,6 +114,25 @@ public class SimulationController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @PutMapping("/simulation/{id}")
+    public ResponseEntity<Object> deleteSimulation(@RequestBody SimulationDTO simulationDTO, @PathVariable Long id) {
+        Simulation simulation = convertToEntity(simulationDTO);
+
+        Optional<Simulation> simulationFromDatabase = simulationService.getSimulationById(id);
+
+        if(simulationFromDatabase.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        simulationFromDatabase.get().update(simulation);
+
+        simulationProcessService.process(simulationFromDatabase.get());
+
+        simulationService.updateSimulation(simulationFromDatabase.get());
+
+        return ResponseEntity.noContent().build();
+    }
+
     private Simulation convertToEntity(SimulationDTO simulationDTO) {
         Simulation simulation = modelMapper.map(simulationDTO, Simulation.class);
         simulation.setPopulationStateRecords(new ArrayList<>(simulation.getNumberOfDaysForSimulation()));

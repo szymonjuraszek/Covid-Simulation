@@ -27,8 +27,6 @@ public class SimulationDTO {
     @NotNull(message = "Field: 'infectionRate' can't be null")
     private Integer infectionRate;
 
-    @Min(value = 0, message = "'dyingRate' must be between 0.0 and 1.0")
-    @Max(value = 1, message = "'dyingRate' must be between 0.0 and 1.0")
     @NotNull(message = "Field: 'dyingRate' can't be null")
     private Double dyingRate;
 

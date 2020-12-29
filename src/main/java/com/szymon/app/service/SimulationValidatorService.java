@@ -15,5 +15,9 @@ public class SimulationValidatorService {
         if (simulation.getNumberOfDaysUntilDeath() > simulation.getNumberOfDaysUntilRecovery()) {
             throw new WrongNumberException("Field: 'numberOfDaysUntilRecovery' can't be lower than 'numberOfDaysUntilDeath'");
         }
+
+        if (simulation.getDyingRate() <= 0.0 && simulation.getDyingRate() > 1.0) {
+            throw new WrongNumberException("Field: 'dyingRate' must be between 0.0 and 1.0");
+        }
     }
 }

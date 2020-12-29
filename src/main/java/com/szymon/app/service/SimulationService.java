@@ -37,8 +37,16 @@ public class SimulationService {
         return simulationRepository.findAll();
     }
 
+    public Optional<Simulation> updateSimulation(Simulation simulation) {
+        try {
+            return Optional.of(simulationRepository.save(simulation));
+        } catch (Exception e) {
+            throw new SimulationNameNonUnique("Simulation with name: '" + simulation.getSimulationName() + "' exist!");
+        }
+    }
+
     public boolean deleteSimulation(Long id) {
-        if(simulationRepository.existsById(id)) {
+        if (simulationRepository.existsById(id)) {
             simulationRepository.deleteById(id);
             return true;
         } else {
